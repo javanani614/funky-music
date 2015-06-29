@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% include 'form.html' %}
+
+<div id="tracks-container">
+<img src="{{ playlist['images'][0]['url'] }}"/>
+{{ playlist['name'] }} by {{ playlist['owner']['id']}}
+
+{% for tracks in playlist %}
+
+<div class="tracks">
+
+    <a href="{{ playlist['href'] }}">
+        <span class="caption">
+        
+        </span>
+
+    </a>
+</div>
+
+{% endfor %}
+
+</div>
+
+<button id="scroll-thru-tracks" class="button-primary">Play More Tracks...</button>
+
+<!-- Get more tracks  asynchronously -->
+
+<script>
+// Define a function to query our API
+function getTracks(offset) {
+    console.log("Getting another set of tracks from " + offset);
+    $.post('http://localhost:8080/playlist', {'username': user_id, 'playlist_id':playlist_id)}{
+        // data is a list of playlist JSON items, so we need to iterate
+        console.log(data);
+        $.each(data.playlists, function(index, playlist) {
+            // now we have an individual playlist
+            // console.log to take a look
+            console.log(playlist);
+            // create the HTML div
+
+            var playlistImg = '<img src="' + playlist.images[0].url + '"/>';
+            var playlistCaption = '<span class="caption">' + playlist.name + " by " + playlist.owner.id + '</span>';
+            var playlistLink = '<a href="' + playlist.href+ '">';
+                playlistLink += playlistImg;
+                playlistLink += playlistCaption;
+                playlistLink += '</a>';
+
+            var playlistDiv = $('<div class="playlist"></div>');
+            playlistDiv.append(playlistLink);
+
+            $('#playlist-container').append(playlistDiv);
+
+
+        }); // end each
+
+     } // end function(data)
+    ); // end post
+}
+
+// Set the global initial offset to 10, since we loaded 10 from the server
+var offset = 10;
+
+$(function() { // document.ready
+
+    // Call the function as soon as the page has loaded
+    getTracks(offset);
+    // Increase the offset since we just got 10 more items
+    trackIndex += 10;
+
+}); // end document.ready
+
+// Make sure our button works
+$('#scroll-thru-tracks').click(function() {
+    console.log("Back to Playlists " + trackIndex;
+    getTracks(trackIndex);
+    offset += 10;
+})
+
+
+</script>
+
+{% endblock %}
