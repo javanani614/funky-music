@@ -8,15 +8,13 @@
 
 
 {% for track in tracks %}
-{{track['track_number'] }}  
+ 
 <div class="playlist-tracks">
 
-    <a href="{{ track['track_number'] }}">
         <span class="caption">
-        <ul>
-            <li> track info goes here</li>
+        
+            <p> {{track}}</p>
 
-        </ul>     
         </span>
 
     </a>
@@ -26,7 +24,7 @@
 
 </div>
 
-<button id="scroll-thru-tracks" class="button-primary">Play More Tracks...</button>
+<button id="scroll-thru-tracks" class="button-primary">END OF LIST...</button>
 
 <!-- Get more tracks  asynchronously -->
 

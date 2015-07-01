@@ -7,11 +7,12 @@
 <div id="playlist-container">
 
 {% for playlist in music %}
-
+   
 <div class="playlist">
-
-    <a href="{{ playlist['href'] }}">
-
+    {% set username =  playlist['owner']['id'] %}
+    {% set playlist_id =  playlist['id'] %}
+    <a href="/playlist/{{username}}/{{playlist_id}}" />
+             
         <img src="{{ playlist['images'][0]['url'] }}"/>
 
         <span class="caption">
@@ -39,9 +40,10 @@ function getMusic(offset) {
         $.each(data.playlists, function(index, playlist) {
             // now we have an individual playlist
             // console.log to take a look
-            console.log(playlist);
+            console.log(playlist.owener.id);
             // create the HTML div
-
+            var username = playlist.owner.id 
+            var playlist_id = playlist.id
             var playlistImg = '<img src="' + playlist.images[0].url + '"/>';
             var playlistCaption = '<span class="caption">' + playlist.name + " by " + playlist.owner.id + '</span>';
             var playlistLink = '<a href="' + playlist.href+ '">';
